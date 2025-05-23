@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "About Our Student Management System";
+    ViewBag.Message = "Streamlining Academic Administration and Student Services";
+}
+<div class="container about-page mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-university text-white py-3">
+                    <h1 id="title" class="h2 mb-0">@ViewBag.Title</h1>
+                </div>
+
+                <div class="card-body p-4">
+                    <h3 class="text-secondary mb-4">@ViewBag.Message</h3>
+
+                    <div class="system-description mb-5">
+                        <p class="lead">
+                            The Student Management System is a comprehensive platform designed to facilitate efficient
+                            management of student records and academic information.
+                        </p>
+                    </div>
+
+                    <div class="system-features row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-box p-4 h-100 border rounded">
+                                <div class="feature-icon mb-3 text-primary">
+                                    <i class="fas fa-user-cog fa-2x"></i>
+                                </div>
+                                <h4 class="feature-title mb-3">Administrator Features</h4>
+                                <ul class="feature-list list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Complete student record management</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Advanced search and filtering capabilities</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Data import/export functionality</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>User access and permission controls</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="feature-box p-4 h-100 border rounded">
+                                <div class="feature-icon mb-3 text-success">
+                                    <i class="fas fa-user-graduate fa-2x"></i>
+                                </div>
+                                <h4 class="feature-title mb-3">Student Features</h4>
+                                <ul class="feature-list list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>Personal profile dashboard</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>Course registration overview</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>Academic progress tracking</li>
+                                    <li><i class="fas fa-check-circle text-primary me-2"></i>Secure document access</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="system-values mt-5 pt-3">
+                        <h4 class="border-bottom pb-2 mb-3">Our Commitment</h4>
+                        <p>
+                            We are dedicated to providing educational institutions with reliable, intuitive tools that enhance
+                            both administrative efficiency and student engagement. Our system bridges the gap between
+                            administration and students through secure, accessible digital solutions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light py-3">
+                    <div class="text-muted text-center small">
+                        Student Management System © @DateTime.Now.Year
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-university {
+        background: linear-gradient(135deg, #1a3a8f 0%, #0d6efd 100%);
+    }
+
+    .feature-box {
+        transition: all 0.3s ease;
+    }
+
+        .feature-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+    .feature-title {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+</style>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Student>
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<h2 class="mb-4">Students</h2>
+
+<div class="mb-3">
+    @Html.ActionLink("Create New Student", "CreateStudent", null, new { @class = "btn btn-primary" })
+</div>
+
+<!-- Search form -->
+@using (Html.BeginForm("Students", "Admin", FormMethod.Get))
+{
+    <div class="input-group mb-3" style="max-width: 400px;">
+        <input type="text" name="searchString" value="@Request.QueryString["searchString"]" class="form-control" placeholder="Search by name..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+}
+<div class="mb-3">
+    @Html.ActionLink("Generate Report", "GenerateStudentReport", "Admin", null, new { @class = "btn btn-success ms-2" })
+</div>
+
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th style="width: 100px;">Photo</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th style="width: 180px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.PhotoPath))
+                        {
+                            <img src="@Url.Content(item.PhotoPath)" alt="Student Photo" class="img-thumbnail" style="width:80px; height:80px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Images/default-student.png")" alt="No Photo" class="img-thumbnail" style="width:80px; height:80px; object-fit: cover;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Student Actions">
+                            @Html.ActionLink("Edit", "EditStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary" })
+                            @Html.ActionLink("Details", "DetailStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-info" })
+                            @Html.ActionLink("Delete", "DeleteStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No student records found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

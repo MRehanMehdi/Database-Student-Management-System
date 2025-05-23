@@ -1,0 +1,53 @@
+﻿@model StudentManagementSystem.Models.Student
+
+@{
+    ViewBag.Title = "Student Details";
+}
+
+<h2 class="mb-4">Student Details</h2>
+
+<div class="card shadow-sm p-4" style="max-width: 700px; margin: auto;">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="@Url.Content(Model.PhotoPath ?? "~/Images/default-student.png")"
+                 alt="Student Photo" class="img-fluid rounded mb-3" style="max-height: 200px;" />
+        </div>
+        <div class="col-md-8">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <th scope="row" style="width: 35%;">Name:</th>
+                        <td>@Model.FirstName @Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email:</th>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Phone:</th>
+                        <td>@Model.PhoneNumber</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date of Birth:</th>
+                        <td>@Model.DateOfBirth.ToString("MMMM dd, yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address:</th>
+                        <td>@Model.Address</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        @Html.ActionLink("Back to List", "Students", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<style>
+    /* Optional: Add a subtle box shadow to the card */
+    .card {
+        border-radius: 10px;
+    }
+</style>

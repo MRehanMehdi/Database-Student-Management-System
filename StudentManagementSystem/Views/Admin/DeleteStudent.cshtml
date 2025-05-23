@@ -1,0 +1,59 @@
+﻿@model StudentManagementSystem.Models.Student
+
+@{
+    ViewBag.Title = "Delete Student";
+}
+
+<h2 class="mb-4 text-danger">Delete Student</h2>
+
+<div class="alert alert-warning" role="alert">
+    <h5>Are you sure you want to delete this student?</h5>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Student Details</strong>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">First Name</dt>
+            <dd class="col-sm-9">@Model.FirstName</dd>
+
+            <dt class="col-sm-3">Last Name</dt>
+            <dd class="col-sm-9">@Model.LastName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Phone Number</dt>
+            <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+            <dt class="col-sm-3">Date of Birth</dt>
+            <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9">@Model.Address</dd>
+
+            <dt class="col-sm-3">Photo</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                {
+                    <img src="@Url.Content(Model.PhotoPath)" alt="Student Photo" class="img-thumbnail" style="max-height: 150px;" />
+                }
+                else
+                {
+                    <span>No photo uploaded</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteStudent", "Admin", new { id = Model.Id }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        @Html.ActionLink("Cancel", "Students", null, new { @class = "btn btn-secondary" })
+    </div>
+}

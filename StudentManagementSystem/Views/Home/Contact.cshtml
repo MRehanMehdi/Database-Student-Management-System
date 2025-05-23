@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Contact Riphah International University";
+    ViewBag.Message = "Get in Touch with Our Administration";
+}
+<div class="container contact-page py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-academic text-white py-3">
+                    <h1 id="title" class="h2 mb-0">@ViewBag.Title</h1>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="text-secondary mb-4">@ViewBag.Message</h3>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="contact-card p-4 h-100 border rounded">
+                                <div class="contact-icon mb-3 text-primary">
+                                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                                </div>
+                                <h4 class="contact-title mb-3">Our Campus</h4>
+                                <address class="mb-0">
+                                    Riphah International University<br>
+                                    I-14 Sector<br>
+                                    Islamabad, Pakistan<br>
+                                    <abbr title="Phone" class="fw-bold">Phone:</abbr>
+                                    +92 51 111 510 510
+                                </address>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="contact-card p-4 h-100 border rounded">
+                                <div class="contact-icon mb-3 text-success">
+                                    <i class="fas fa-envelope fa-2x"></i>
+                                </div>
+                                <h4 class="contact-title mb-3">Email Contacts</h4>
+                                <address class="mb-0">
+                                    <strong>Technical Support:</strong><br>
+                                    <a href="mailto:support@riphah.edu.pk" class="text-decoration-none">
+                                        <i class="fas fa-fw fa-envelope"></i> support@riphah.edu.pk
+                                    </a><br><br>
+                                    <strong>Admissions Office:</strong><br>
+                                    <a href="mailto:admissions@riphah.edu.pk" class="text-decoration-none">
+                                        <i class="fas fa-fw fa-envelope"></i> admissions@riphah.edu.pk
+                                    </a>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-hours mt-5 pt-3">
+                        <h4 class="border-bottom pb-2 mb-3">Office Hours</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Monday - Friday:</strong></p>
+                                <p>8:30 AM - 5:00 PM</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Saturday:</strong></p>
+                                <p>9:00 AM - 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light py-3">
+                    <div class="text-center small">
+                        <p class="mb-1">For admissions inquiries, please contact our helpline</p>
+                        <p class="fw-bold mb-0"><i class="fas fa-phone-alt me-2"></i> +92 51 111 510 510</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-academic {
+        background: linear-gradient(135deg, #0d6efd 0%, #1a3a8f 100%);
+    }
+
+    .contact-card {
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+    }
+
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+
+    .contact-title {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    .contact-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(13, 110, 253, 0.1);
+        border-radius: 50%;
+    }
+</style>

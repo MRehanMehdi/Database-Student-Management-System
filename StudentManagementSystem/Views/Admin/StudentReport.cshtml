@@ -1,0 +1,58 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Student>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Student Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Student Report</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(student.PhotoPath))
+                        {
+                            <img src="@Url.Content(student.PhotoPath)" alt="Photo of @student.FirstName @student.LastName" style="width:50px; height:50px;" />
+                        }
+                        else
+                        {
+                            <span>No Photo</span>
+                        }
+                    </td>
+                    <td>@student.FirstName @student.LastName</td>
+                    <td>@(string.IsNullOrEmpty(student.Email) ? "N/A" : student.Email)</td>
+                    <td>@(string.IsNullOrEmpty(student.PhoneNumber) ? "N/A" : student.PhoneNumber)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

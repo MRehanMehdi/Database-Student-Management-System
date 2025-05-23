@@ -1,0 +1,49 @@
+
+## Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore build output
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+## Ignore ASP.NET temporary files
+*.dbmdl
+*.bak
+*.sql
+App_Data/
+*.mdf
+*.ldf
+
+## Ignore NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+.nuget/
+
+## Ignore publish files
+app.publish/
+*.Publish.xml
+
+## Ignore Rider IDE
+.idea/
+
+## Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+## Ignore node_modules if frontend tools used
+node_modules/
+
+## Ignore Web Essentials cache
+*.vspscc
+*.vssscc
