@@ -11,22 +11,30 @@ namespace StudentManagementSystem.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name cannot be longer than 50 characters")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(50, ErrorMessage = "Last Name cannot be longer than 50 characters")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [StringLength(100)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone number format")]
+        [StringLength(15, ErrorMessage = "Phone number cannot be longer than 15 digits")]
         public string PhoneNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Date of Birth is required")]
+        [DataType(DataType.Date, ErrorMessage = "Invalid date format")]
         public DateTime DateOfBirth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Address is required")]
+        [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
         public string Address { get; set; }
 
         public string PhotoPath { get; set; }

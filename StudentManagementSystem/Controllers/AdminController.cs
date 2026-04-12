@@ -173,8 +173,8 @@ namespace StudentManagementSystem.Controllers
         {
             return View();
         }
-
-        // ✅ New action: CSV file download
+        
+        // New action: CSV file download
         public ActionResult GenerateStudentReport()
         {
             var students = db.Students.ToList();
@@ -202,7 +202,7 @@ namespace StudentManagementSystem.Controllers
             return File(buffer, "text/csv", "StudentReport.csv");
         }
 
-        // ✅ New action: View-based Student Report (HTML table)
+        // New action: View-based Student Report (HTML table)
         public ActionResult StudentReport()
         {
             var students = db.Students.ToList();

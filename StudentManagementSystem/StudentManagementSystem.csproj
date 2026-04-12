@@ -541,8 +541,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\Student.cs" />
@@ -631,10 +629,7 @@
     <Content Include="Views\Admin\EditStudent.cshtml" />
     <Content Include="Views\Admin\DeleteStudent.cshtml" />
     <Content Include="Views\Admin\DetailStudent.cshtml" />
-    <Content Include="Views\Admin\StudentCourses.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Admin\AdminProfile.cshtml" />
-    <Content Include="Views\Admin\StudentReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
