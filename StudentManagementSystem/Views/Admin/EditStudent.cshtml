@@ -1,116 +1,84 @@
-﻿@model StudentManagementSystem.Models.Student
-
+@model StudentManagementSystem.Models.Student
 @{
     ViewBag.Title = "Edit Student";
+    ViewBag.ActivePage = "Students";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-success text-white">
-            <h3 class="mb-0">✏️ Edit Student</h3>
-        </div>
-        <div class="card-body p-4">
-
-            @using (Html.BeginForm("EditStudent", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.Id)
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.FirstName, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Enter first name", required = "required" })
-                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.LastName, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Enter last name", required = "required" })
-                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.Email, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", placeholder = "Enter email", required = "required" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Enter phone number", required = "required" })
-                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.DateOfBirth, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
-                        @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-6">
-                        @Html.LabelFor(m => m.Address, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "Enter address", required = "required" })
-                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger small" })
-                    </div>
-
-                    <div class="col-md-12">
-                        <label class="form-label fw-bold">Current Photo</label><br />
-                        @if (!string.IsNullOrEmpty(Model.PhotoPath))
-                        {
-                            <img src="@Url.Content(Model.PhotoPath)" alt="Student Photo" class="img-thumbnail mb-2 shadow-sm" style="max-width: 150px;" />
-                        }
-                        else
-                        {
-                            <span class="text-muted fst-italic">No photo uploaded</span>
-                        }
-                    </div>
-
-                    <div class="col-md-12">
-                        <label for="PhotoFile" class="form-label fw-bold">Change Photo</label>
-                        <input type="file" class="form-control" id="PhotoFile" name="PhotoFile" accept="image/*" />
-                    </div>
-                </div>
-
-                <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success px-4 me-2"><i class="bi bi-check-circle"></i> Save Changes</button>
-                    @Html.ActionLink("Cancel", "Students", null, new { @class = "btn btn-secondary px-4" })
-                </div>
-            }
-        </div>
+<div class="page-header">
+    <div>
+        <div class="page-title">Edit Student</div>
+        <div class="page-subtitle">// Updating: @Model.FirstName @Model.LastName (ID #@Model.Id)</div>
     </div>
+    <a href="@Url.Action("Students","Admin")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+<div style="max-width:760px">
+    @using (Html.BeginForm("EditStudent", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.PhotoPath)
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <div class="edu-card mb-3">
+            <div class="edu-card-header">
+                <span class="edu-card-title"><i class="bi bi-pencil-square me-2 text-teal"></i>Edit Information</span>
+                <span class="badge-edu badge-blue">ID #@Model.Id</span>
+            </div>
+            <div class="edu-card-body">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label class="field-label">First Name *</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "edu-input" })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Last Name *</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "edu-input" })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Email Address *</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "edu-input" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Phone Number *</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "edu-input" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Date of Birth *</label>
+                        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "edu-input", type = "date" })
+                        @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Update Photo</label>
+                        @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                        {
+                            <img src="@Url.Content(Model.PhotoPath)" style="width:50px;height:50px;border-radius:10px;object-fit:cover;border:2px solid var(--border2);margin-bottom:8px;display:block" />
+                        }
+                        <input type="file" name="PhotoFile" class="edu-input" accept="image/*" />
+                        <div class="field-hint">// Leave blank to keep current photo</div>
+                    </div>
+                    <div class="field-group form-grid-full">
+                        <label class="field-label">Address *</label>
+                        @Html.TextAreaFor(m => m.Address, new { @class = "edu-textarea" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "field-error" })
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms).forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    } else {
-                        event.preventDefault(); // Stop immediate submit
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Changes Saved!',
-                            text: 'The student record was updated successfully.',
-                            confirmButtonColor: '#198754',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            form.submit(); // Submit after popup confirmation
-                        });
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
-}
+        <div style="display:flex;gap:10px">
+            <button type="submit" class="btn-edu btn-edu-primary">
+                <i class="bi bi-check-lg"></i> Save Changes
+            </button>
+            <a href="@Url.Action("Students","Admin")" class="btn-edu btn-edu-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </div>
+    }
+</div>

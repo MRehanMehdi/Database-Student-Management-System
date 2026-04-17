@@ -1,0 +1,65 @@
+@model StudentManagementSystem.Models.Grade
+@{
+    ViewBag.Title = "Assign Grade";
+    ViewBag.ActivePage = "Grades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Assign Grade</div>
+        <div class="page-subtitle">// Assign a grade to an enrolled student</div>
+    </div>
+    <a href="@Url.Action("Grades","Admin")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</div>
+
+<div style="max-width:560px">
+    @using (Html.BeginForm("AssignGrade", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="edu-card mb-3">
+            <div class="edu-card-header">
+                <span class="edu-card-title"><i class="bi bi-award me-2 text-teal"></i>Grade Details</span>
+            </div>
+            <div class="edu-card-body">
+                <div style="display:flex;flex-direction:column;gap:18px">
+                    <div class="field-group">
+                        <label class="field-label">Student — Course *</label>
+                        <select name="EnrollmentId" class="edu-select">
+                            <option value="">Select enrollment...</option>
+                            @if (ViewBag.Enrollments != null)
+                            {
+                                foreach (var item in ViewBag.Enrollments)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Score (0–100) *</label>
+                        @Html.TextBoxFor(m => m.Score, new { @class = "edu-input", type = "number", min = "0", max = "100", step = "0.1", placeholder = "e.g. 87.5" })
+                        @Html.ValidationMessageFor(m => m.Score, "", new { @class = "field-error" })
+                        <div class="field-hint">// Letter grade is auto-calculated: A≥90, B≥80, C≥70, D≥60, F&lt;60</div>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "edu-textarea", placeholder = "Optional instructor remarks..." })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+            <button type="submit" class="btn-edu btn-edu-primary">
+                <i class="bi bi-check-lg"></i> Assign Grade
+            </button>
+            <a href="@Url.Action("Grades","Admin")" class="btn-edu btn-edu-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </div>
+    }
+</div>

@@ -3,19 +3,32 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddCustomFieldsToApplicationUser : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Announcements",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 150),
+                        Body = c.String(nullable: false, maxLength: 1000),
+                        CreatedAt = c.DateTime(nullable: false),
+                        Category = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Courses",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(),
-                        Name = c.String(),
-                        Credits = c.Int(nullable: false),
-                        Description = c.String(),
+                        CourseCode = c.String(nullable: false, maxLength: 10),
+                        CourseName = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(maxLength: 500),
+                        CreditHours = c.Int(nullable: false),
+                        Instructor = c.String(nullable: false, maxLength: 50),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -35,16 +48,30 @@
                 .Index(t => t.CourseId);
             
             CreateTable(
+                "dbo.Grades",
+                c => new
+                    {
+                        EnrollmentId = c.Int(nullable: false),
+                        Score = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        LetterGrade = c.String(maxLength: 2),
+                        Remarks = c.String(maxLength: 200),
+                        DateAssigned = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.EnrollmentId)
+                .ForeignKey("dbo.Enrollments", t => t.EnrollmentId)
+                .Index(t => t.EnrollmentId);
+            
+            CreateTable(
                 "dbo.Students",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(nullable: false),
-                        LastName = c.String(nullable: false),
-                        Email = c.String(nullable: false),
-                        PhoneNumber = c.String(nullable: false),
+                        FirstName = c.String(nullable: false, maxLength: 50),
+                        LastName = c.String(nullable: false, maxLength: 50),
+                        Email = c.String(nullable: false, maxLength: 100),
+                        PhoneNumber = c.String(nullable: false, maxLength: 15),
                         DateOfBirth = c.DateTime(nullable: false),
-                        Address = c.String(nullable: false),
+                        Address = c.String(nullable: false, maxLength: 200),
                         PhotoPath = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
@@ -134,6 +161,7 @@
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Enrollments", "StudentId", "dbo.Students");
+            DropForeignKey("dbo.Grades", "EnrollmentId", "dbo.Enrollments");
             DropForeignKey("dbo.Enrollments", "CourseId", "dbo.Courses");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -142,6 +170,7 @@
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Grades", new[] { "EnrollmentId" });
             DropIndex("dbo.Enrollments", new[] { "CourseId" });
             DropIndex("dbo.Enrollments", new[] { "StudentId" });
             DropTable("dbo.AspNetUserLogins");
@@ -150,8 +179,10 @@
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Students");
+            DropTable("dbo.Grades");
             DropTable("dbo.Enrollments");
             DropTable("dbo.Courses");
+            DropTable("dbo.Announcements");
         }
     }
 }

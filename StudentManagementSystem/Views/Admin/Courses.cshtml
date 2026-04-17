@@ -1,0 +1,55 @@
+<!-- ====== Courses.cshtml ====== -->
+@* @model IEnumerable<StudentManagementSystem.Models.Course> *@
+@{
+    ViewBag.Title = "Courses";
+    ViewBag.ActivePage = "Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Course Catalog</div>
+        <div class="page-subtitle">// Manage all academic courses</div>
+    </div>
+    <a href="@Url.Action("CreateCourse","Admin")" class="btn-edu btn-edu-primary">
+        <i class="bi bi-plus-lg"></i> Add Course
+    </a>
+</div>
+
+@if (Model != null && ((IEnumerable<dynamic>)Model).Any())
+{
+    <div class="course-grid">
+        @foreach (var c in Model)
+        {
+            <div class="course-card">
+                <div class="course-code">@c.CourseCode</div>
+                <div class="course-name">@c.CourseName</div>
+                <div class="course-desc">@(c.Description ?? "No description provided.")</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+                    <span class="badge-edu badge-teal"><i class="bi bi-clock me-1"></i>@c.CreditHours Credits</span>
+                    <span class="badge-edu badge-blue"><i class="bi bi-person me-1"></i>@c.Instructor</span>
+                    <span class="badge-edu badge-purple"><i class="bi bi-people me-1"></i>@(c.Enrollments != null ? c.Enrollments.Count : 0) enrolled</span>
+                </div>
+                <div class="course-footer">
+                    <div style="display:flex;gap:6px">
+                        <a href="@Url.Action("EditCourse","Admin",new{id=c.Id})" class="btn-edu btn-edu-secondary btn-edu-sm btn-edu-icon"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="@Url.Action("DeleteCourse","Admin",new{id=c.Id})" class="btn-edu btn-edu-danger btn-edu-sm btn-edu-icon"><i class="bi bi-trash3-fill"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="edu-card">
+        <div class="empty-state">
+            <i class="bi bi-book"></i>
+            <h4>No courses yet</h4>
+            <p>Add your first course to get started</p>
+            <a href="@Url.Action("CreateCourse","Admin")" class="btn-edu btn-edu-primary" style="margin-top:16px;display:inline-flex">
+                <i class="bi bi-plus-lg"></i> Add First Course
+            </a>
+        </div>
+    </div>
+}

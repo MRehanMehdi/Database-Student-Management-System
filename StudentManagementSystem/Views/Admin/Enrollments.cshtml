@@ -1,0 +1,60 @@
+@model IEnumerable<StudentManagementSystem.Models.Enrollment>
+@{
+    ViewBag.Title = "Enrollments";
+    ViewBag.ActivePage = "Enrollments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Enrollments</div>
+        <div class="page-subtitle">// @Model.Count() total enrollment(s)</div>
+    </div>
+</div>
+
+<div class="edu-table-wrap">
+    <table class="edu-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Course Code</th>
+                <th>Credits</th>
+                <th>Enrolled On</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 1;
+                foreach (var e in Model)
+                {
+                    <tr>
+                        <td class="mono" style="font-size:0.72rem;color:var(--text-dim)">@i</td>
+                        <td>
+                            <div class="student-cell">
+                                <div class="student-avatar-placeholder">@e.Student.FirstName.Substring(0,1).ToUpper()</div>
+                                <div>
+                                    <div class="student-name">@e.Student.FirstName @e.Student.LastName</div>
+                                    <div class="student-id">ID #@e.StudentId</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-size:0.87rem;font-weight:600;color:var(--text)">@e.Course.CourseName</td>
+                        <td><span class="badge-edu badge-teal">@e.Course.CourseCode</span></td>
+                        <td><span class="badge-edu badge-blue">@e.Course.CreditHours cr</span></td>
+                        <td><span class="mono" style="font-size:0.78rem;color:var(--text-muted)">@e.EnrollmentDate.ToString("MMM dd, yyyy")</span></td>
+                        <td><span class="badge-edu badge-green"><i class="bi bi-circle-fill" style="font-size:0.4rem"></i> Active</span></td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr><td colspan="7"><div class="empty-state"><i class="bi bi-journal-check"></i><h4>No enrollments found</h4></div></td></tr>
+            }
+        </tbody>
+    </table>
+</div>

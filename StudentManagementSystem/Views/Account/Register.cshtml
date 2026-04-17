@@ -1,44 +1,57 @@
-﻿@model StudentManagementSystem.Controllers.RegisterViewModel
-
+﻿@model StudentManagementSystem.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    ViewBag.IsLoginPage = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
+<div class="login-page">
+    <div class="login-card" style="max-width:480px">
+        <div class="login-logo"><i class="fas fa-user-plus"></i></div>
+        <div class="login-title">Create Account</div>
+        <div class="login-sub">Register as a new student</div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form" }))
-{
-    @Html.AntiForgeryToken()
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert-edu alert-edu-danger" })
 
-    <div>
-        @Html.LabelFor(m => m.FirstName)
-        @Html.TextBoxFor(m => m.FirstName)
-        @Html.ValidationMessageFor(m => m.FirstName)
+            <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="field-group">
+                        <label class="field-label">First Name</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "edu-input", placeholder = "First" })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Last Name</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "edu-input", placeholder = "Last" })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "field-error" })
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Email Address</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "edu-input", placeholder = "student@email.com" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "field-error" })
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Password</label>
+                    @Html.PasswordFor(m => m.Password, new { @class = "edu-input", placeholder = "Min 6 characters" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "field-error" })
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Confirm Password</label>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "edu-input", placeholder = "Repeat password" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "field-error" })
+                </div>
+                <button type="submit" class="btn-edu btn-edu-primary w-100" style="justify-content:center;padding:13px">
+                    <i class="bi bi-check-circle-fill"></i> Create Account
+                </button>
+                <div style="text-align:center;font-size:0.8rem;color:var(--text-muted)">
+                    Already have an account?
+                    <a href="@Url.Action("Login","Account")" style="color:var(--teal);text-decoration:none">Sign in</a>
+                </div>
+            </div>
+        }
     </div>
-
-    <div>
-        @Html.LabelFor(m => m.LastName)
-        @Html.TextBoxFor(m => m.LastName)
-        @Html.ValidationMessageFor(m => m.LastName)
-    </div>
-
-    <div>
-        @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email)
-    </div>
-
-    <div>
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password)
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-
-    <div>
-        @Html.LabelFor(m => m.ConfirmPassword)
-        @Html.PasswordFor(m => m.ConfirmPassword)
-        @Html.ValidationMessageFor(m => m.ConfirmPassword)
-    </div>
-
-    <button type="submit">Register</button>
-}
+</div>

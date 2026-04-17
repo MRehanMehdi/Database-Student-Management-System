@@ -1,0 +1,66 @@
+@model StudentManagementSystem.Models.Course
+@{
+    ViewBag.Title = "Add Course";
+    ViewBag.ActivePage = "Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Add New Course</div>
+        <div class="page-subtitle">// Define a new academic course</div>
+    </div>
+    <a href="@Url.Action("Courses","Admin")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</div>
+
+<div style="max-width:680px">
+    @using (Html.BeginForm("CreateCourse", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="edu-card mb-3">
+            <div class="edu-card-header">
+                <span class="edu-card-title"><i class="bi bi-book-half me-2 text-teal"></i>Course Details</span>
+            </div>
+            <div class="edu-card-body">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label class="field-label">Course Code *</label>
+                        @Html.TextBoxFor(m => m.CourseCode, new { @class = "edu-input", placeholder = "e.g. CS-101" })
+                        @Html.ValidationMessageFor(m => m.CourseCode, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Credit Hours *</label>
+                        @Html.TextBoxFor(m => m.CreditHours, new { @class = "edu-input", type = "number", min = "1", max = "6" })
+                        @Html.ValidationMessageFor(m => m.CreditHours, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group form-grid-full">
+                        <label class="field-label">Course Name *</label>
+                        @Html.TextBoxFor(m => m.CourseName, new { @class = "edu-input", placeholder = "e.g. Introduction to Programming" })
+                        @Html.ValidationMessageFor(m => m.CourseName, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group form-grid-full">
+                        <label class="field-label">Instructor *</label>
+                        @Html.TextBoxFor(m => m.Instructor, new { @class = "edu-input", placeholder = "e.g. Dr. Ahmed Khan" })
+                        @Html.ValidationMessageFor(m => m.Instructor, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group form-grid-full">
+                        <label class="field-label">Description</label>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "edu-textarea", placeholder = "Brief course description..." })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+            <button type="submit" class="btn-edu btn-edu-primary">
+                <i class="bi bi-check-lg"></i> Save Course
+            </button>
+            <a href="@Url.Action("Courses","Admin")" class="btn-edu btn-edu-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </div>
+    }
+</div>

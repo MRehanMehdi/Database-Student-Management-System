@@ -61,6 +61,8 @@ namespace StudentManagementSystem.Models
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Grade> Grades { get; set; }              
+        public DbSet<Announcement> Announcements { get; set; } 
 
         public static ApplicationDbContext Create()
         {
@@ -82,6 +84,10 @@ namespace StudentManagementSystem.Models
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.CourseId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOptional(e => e.Grade)
+                .WithRequired(g => g.Enrollment);
         }
     }
 }

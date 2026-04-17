@@ -1,69 +1,150 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Student Management System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-x..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title — EduCore SMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    <style>
-        body {
-            padding-top: 70px; /* Adjust depending on navbar height */
-        }
-    </style>
+    <link rel="stylesheet" href="~/Content/educore.css" />
 </head>
 <body>
-    <!-- HEADER / NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="@Url.Action("Index", "Home")">
-                <i class="fas fa-graduation-cap me-2"></i>Student Management System
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-white fw-semibold" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link text-white fw-semibold" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link text-white fw-semibold" })
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- BODY -->
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
+    @{
+        bool isLoginPage = ViewBag.IsLoginPage == true;
+        bool isAdmin = User.IsInRole("Admin");
+        bool isStudent = User.IsInRole("Student");
+    }
 
-        <!-- FOOTER -->
-        <footer class="bg-light text-center text-lg-start mt-5 border-top pt-3 pb-3">
-            <div class="container d-flex justify-content-between align-items-center flex-wrap">
-                <div class="text-muted">
-                    &copy; @DateTime.Now.Year - Student Management System. All rights reserved.
-                </div>
+    @if (!isLoginPage && Request.IsAuthenticated)
+    {
+        <!-- SIDEBAR -->
+        <aside class="edu-sidebar" id="eduSidebar">
+            <a class="sidebar-brand" href="@(isAdmin ? Url.Action("Index","Admin") : Url.Action("Profile","Student"))">
+                <div class="brand-logo"><i class="fas fa-graduation-cap"></i></div>
                 <div>
-                    <a href="https://twitter.com/YourTwitterHandle" target="_blank" class="text-dark mx-2 text-decoration-none">
-                        <i class="fab fa-twitter fa-lg"></i>
+                    <div class="brand-name">EduCore</div>
+                    <div class="brand-sub">v2.0 SMS</div>
+                </div>
+            </a>
+
+            @if (isAdmin)
+            {
+                <div class="sidebar-section">
+                    <div class="sidebar-section-label">Main</div>
+                    <a href="@Url.Action("Index","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Dashboard" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-grid-1x2-fill"></i></span> Dashboard
                     </a>
-                    <a href="https://instagram.com/YourInstagramHandle" target="_blank" class="text-dark mx-2 text-decoration-none">
-                        <i class="fab fa-instagram fa-lg"></i>
+                    <a href="@Url.Action("Students","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Students" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-people-fill"></i></span> Students
+                    </a>
+                    <a href="@Url.Action("Courses","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Courses" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-book-fill"></i></span> Courses
+                    </a>
+                    <a href="@Url.Action("Enrollments","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Enrollments" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-journal-check"></i></span> Enrollments
                     </a>
                 </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-label">Academic</div>
+                    <a href="@Url.Action("Grades","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Grades" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-award-fill"></i></span> Grades
+                    </a>
+                    <a href="@Url.Action("Announcements","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Announcements" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-megaphone-fill"></i></span> Announcements
+                    </a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-label">Reports</div>
+                    <a href="@Url.Action("StudentReport","Admin")" class="nav-item-edu @(ViewBag.ActivePage == "Report" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-bar-chart-fill"></i></span> Student Report
+                    </a>
+                    <a href="@Url.Action("GenerateStudentReport","Admin")" class="nav-item-edu">
+                        <span class="nav-icon"><i class="bi bi-file-earmark-arrow-down-fill"></i></span> Export CSV
+                    </a>
+                </div>
+            }
+
+            @if (isStudent)
+            {
+                <div class="sidebar-section">
+                    <div class="sidebar-section-label">My Account</div>
+                    <a href="@Url.Action("Profile","Student")" class="nav-item-edu @(ViewBag.ActivePage == "Profile" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-person-fill"></i></span> My Profile
+                    </a>
+                    <a href="@Url.Action("MyCourses","Student")" class="nav-item-edu @(ViewBag.ActivePage == "MyCourses" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-book-fill"></i></span> My Courses
+                    </a>
+                    <a href="@Url.Action("RegisterCourse","Student")" class="nav-item-edu @(ViewBag.ActivePage == "Register" ? "active" : "")">
+                        <span class="nav-icon"><i class="bi bi-plus-circle-fill"></i></span> Enroll Course
+                    </a>
+                </div>
+            }
+
+            <div class="sidebar-footer">
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="sidebar-user" style="cursor:pointer" onclick="this.closest('form').submit()">
+                        <div class="user-avatar">@(User.Identity.Name != null ? User.Identity.Name.Substring(0,1).ToUpper() : "A")</div>
+                        <div>
+                            <div class="user-name">@User.Identity.Name</div>
+                            <div class="user-role">@(isAdmin ? "Administrator" : "Student")</div>
+                        </div>
+                        <i class="bi bi-box-arrow-right ms-auto" style="color:var(--text-dim);font-size:0.85rem"></i>
+                    </div>
+                }
             </div>
-        </footer>
-    </div>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="edu-main">
+            <div class="edu-topbar">
+                <button class="topbar-btn" onclick="toggleSidebar()" style="display:none" id="menuBtn">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="topbar-title">@ViewBag.Title</span>
+                <div class="topbar-actions">
+                    @if (isAdmin)
+                    {
+                        <a href="@Url.Action("CreateStudent","Admin")" class="topbar-btn" title="Add Student">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </a>
+                    }
+                    <span class="topbar-btn" title="@User.Identity.Name">
+                        <i class="bi bi-bell-fill"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="edu-content">
+                @RenderBody()
+            </div>
+            <footer style="padding:14px 28px;border-top:1px solid var(--border);text-align:center">
+                <span class="mono" style="font-size:0.72rem;color:var(--text-dim)">
+                    EduCore Student Management System &copy; @DateTime.Now.Year — Built with ASP.NET MVC 5 &amp; C#
+                </span>
+            </footer>
+        </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        function toggleSidebar() {
+            document.getElementById('eduSidebar').classList.toggle('open');
+        }
+        // Show hamburger on mobile
+        if (window.innerWidth <= 768) {
+            var btn = document.getElementById('menuBtn');
+            if (btn) btn.style.display = 'flex';
+        }
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

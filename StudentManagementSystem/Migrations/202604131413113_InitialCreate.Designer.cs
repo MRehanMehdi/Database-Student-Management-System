@@ -7,13 +7,13 @@ namespace StudentManagementSystem.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class AddCustomFieldsToApplicationUser : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCustomFieldsToApplicationUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202505181527541_AddCustomFieldsToApplicationUser"; }
+            get { return "202604131413113_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

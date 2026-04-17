@@ -1,0 +1,56 @@
+@model StudentManagementSystem.Models.Grade
+@{
+    ViewBag.Title = "Edit Grade";
+    ViewBag.ActivePage = "Grades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Edit Grade</div>
+        <div class="page-subtitle">// Updating grade ID #@Model.Id</div>
+    </div>
+    <a href="@Url.Action("Grades","Admin")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</div>
+
+<div style="max-width:520px">
+    @using (Html.BeginForm("EditGrade", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.EnrollmentId)
+        @Html.HiddenFor(m => m.DateAssigned)
+
+        <div class="edu-card mb-3">
+            <div class="edu-card-header">
+                <span class="edu-card-title"><i class="bi bi-pencil-square me-2 text-teal"></i>Update Grade</span>
+                <span class="badge-edu badge-blue">ID #@Model.Id</span>
+            </div>
+            <div class="edu-card-body">
+                <div style="display:flex;flex-direction:column;gap:18px">
+                    <div class="field-group">
+                        <label class="field-label">Score (0–100) *</label>
+                        @Html.TextBoxFor(m => m.Score, new { @class = "edu-input", type = "number", min = "0", max = "100", step = "0.1" })
+                        @Html.ValidationMessageFor(m => m.Score, "", new { @class = "field-error" })
+                        <div class="field-hint">// Letter grade auto-updates on save</div>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "edu-textarea" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+            <button type="submit" class="btn-edu btn-edu-primary">
+                <i class="bi bi-check-lg"></i> Save Changes
+            </button>
+            <a href="@Url.Action("Grades","Admin")" class="btn-edu btn-edu-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </div>
+    }
+</div>

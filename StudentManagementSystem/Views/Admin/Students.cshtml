@@ -1,96 +1,113 @@
-﻿@model IEnumerable<StudentManagementSystem.Models.Student>
-
+@model IEnumerable<StudentManagementSystem.Models.Student>
 @{
     ViewBag.Title = "Students";
+    ViewBag.ActivePage = "Students";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container py-4">
-    <h2 class="mb-4 text-primary fw-bold border-bottom pb-2">
-        <i class="bi bi-people-fill"></i> Student Management
-    </h2>
-
-    <!-- Top Bar -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            @Html.ActionLink("➕ Add New Student", "CreateStudent", null, new { @class = "btn btn-success fw-semibold shadow-sm" })
-        </div>
-        <!-- Search form -->
+<div class="page-header">
+    <div>
+        <div class="page-title">Student Records</div>
+        <div class="page-subtitle">// @Model.Count() student(s) found</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         @using (Html.BeginForm("Students", "Admin", FormMethod.Get))
         {
-            <div class="input-group" style="max-width: 350px;">
-                <input type="text" name="searchString" value="@Request.QueryString["searchString"]"
-                       class="form-control border-primary shadow-sm"
-                       placeholder="🔍 Search by name..." />
-                <button type="submit" class="btn btn-primary shadow-sm">Search</button>
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" name="searchString" value="@Request.QueryString["searchString"]" placeholder="Search by name..." />
             </div>
         }
-    </div>
-
-    <!-- Table -->
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover table-bordered align-middle mb-2">
-            <thead class="table-primary text-dark">
-                <tr>
-                    <th style="width: 90px;" class="text-center">Photo</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th style="width: 220px;" class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var item in Model)
-                    {
-                        <tr class="table-row-hover">
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.PhotoPath))
-                                {
-                                    <img src="@Url.Content(item.PhotoPath)" alt="Student Photo"
-                                         class="rounded-circle border"
-                                         style="width:65px; height:65px; object-fit: cover;" />
-                                }
-                                else
-                                {
-                                    <img src="@Url.Content("~/Images/default-student.png")" alt="No Photo"
-                                         class="rounded-circle border"
-                                         style="width:65px; height:65px; object-fit: cover;" />
-                                }
-                            </td>
-                            <td class="fw-semibold">
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                                @Html.DisplayFor(modelItem => item.LastName)
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    @Html.ActionLink("✏ Edit", "EditStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary" })
-                                    @Html.ActionLink("ℹ Details", "DetailStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-info" })
-                                    @Html.ActionLink("🗑 Delete", "DeleteStudent", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center text-muted py-4">
-                            <i class="bi bi-emoji-frown"></i> No student records found.
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <a href="@Url.Action("CreateStudent","Admin")" class="btn-edu btn-edu-primary">
+            <i class="bi bi-person-plus-fill"></i> Add Student
+        </a>
+        <a href="@Url.Action("GenerateStudentReport","Admin")" class="btn-edu btn-edu-secondary">
+            <i class="bi bi-download"></i> Export CSV
+        </a>
     </div>
 </div>
 
-<!-- Extra Styling -->
-<style>
-    .table-row-hover:hover {
-        background-color: #f1f7ff !important;
-        transition: 0.2s ease-in-out;
-    }
-</style>
+<div class="edu-table-wrap">
+    <table class="edu-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date of Birth</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-dim)">@i</td>
+                        <td>
+                            <div class="student-cell">
+                                @if (!string.IsNullOrEmpty(item.PhotoPath))
+                                {
+                                    <img src="@Url.Content(item.PhotoPath)" alt="Photo" class="student-avatar" />
+                                }
+                                else
+                                {
+                                    <div class="student-avatar-placeholder">
+                                        @item.FirstName.Substring(0, 1).ToUpper()
+                                    </div>
+                                }
+                                <div>
+                                    <div class="student-name">@item.FirstName @item.LastName</div>
+                                    <div class="student-id">ID #@item.Id</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-size:0.82rem;color:var(--text-muted)">@item.Email</td>
+                        <td>
+                            <span class="mono" style="font-size:0.82rem;color:var(--text-muted)">@item.PhoneNumber</span>
+                        </td>
+                        <td>
+                            <span class="mono" style="font-size:0.8rem;color:var(--text-muted)">@item.DateOfBirth.ToString("MMM dd, yyyy")</span>
+                        </td>
+                        <td>
+                            <span class="badge-edu badge-teal"><i class="bi bi-circle-fill" style="font-size:0.45rem"></i> Active</span>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px">
+                                <a href="@Url.Action("DetailStudent","Admin", new { id = item.Id })" class="btn-edu btn-edu-secondary btn-edu-sm btn-edu-icon" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="@Url.Action("EditStudent","Admin", new { id = item.Id })" class="btn-edu btn-edu-secondary btn-edu-sm btn-edu-icon" title="Edit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a href="@Url.Action("StudentCourses","Admin", new { id = item.Id })" class="btn-edu btn-edu-secondary btn-edu-sm btn-edu-icon" title="Courses">
+                                    <i class="bi bi-book"></i>
+                                </a>
+                                <a href="@Url.Action("DeleteStudent","Admin", new { id = item.Id })" class="btn-edu btn-edu-danger btn-edu-sm btn-edu-icon" title="Delete">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <i class="bi bi-people"></i>
+                            <h4>No students found</h4>
+                            <p>Add your first student to get started</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

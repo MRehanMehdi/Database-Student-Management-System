@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Grades";
+    ViewBag.ActivePage = "Grades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Grade Management</div>
+        <div class="page-subtitle">// Assign and manage student grades</div>
+    </div>
+    <a href="@Url.Action("AssignGrade","Admin")" class="btn-edu btn-edu-primary">
+        <i class="bi bi-plus-lg"></i> Assign Grade
+    </a>
+</div>
+
+<div class="edu-table-wrap">
+    <table class="edu-table">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Score</th>
+                <th>Grade</th>
+                <th>Remarks</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Grades != null && ((IEnumerable<dynamic>)ViewBag.Grades).Any())
+            {
+                foreach (var g in ViewBag.Grades)
+                {
+                    string gradeCss = g.LetterGrade == "A" ? "grade-A" : g.LetterGrade == "B" ? "grade-B" : g.LetterGrade == "C" ? "grade-C" : g.LetterGrade == "D" ? "grade-D" : "grade-F";
+                    <tr>
+                        <td>
+                            <div class="student-cell">
+                                <div class="student-avatar-placeholder">@g.Enrollment.Student.FirstName.ToString().Substring(0,1)</div>
+                                <div>
+                                    <div class="student-name">@g.Enrollment.Student.FirstName @g.Enrollment.Student.LastName</div>
+                                    <div class="student-id">ID #@g.Enrollment.StudentId</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-size:0.85rem">@g.Enrollment.Course.CourseName</td>
+                        <td><span class="mono" style="font-size:0.85rem;color:var(--text)">@g.Score%</span></td>
+                        <td><span class="badge-edu @gradeCss">@g.LetterGrade</span></td>
+                        <td style="font-size:0.8rem;color:var(--text-muted)">@g.Remarks</td>
+                        <td><span class="mono" style="font-size:0.75rem;color:var(--text-dim)">@g.DateAssigned.ToString("MMM dd, yyyy")</span></td>
+                        <td>
+                            <a href="@Url.Action("EditGrade","Admin",new{id=g.Id})" class="btn-edu btn-edu-secondary btn-edu-sm btn-edu-icon"><i class="bi bi-pencil-fill"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <i class="bi bi-award"></i>
+                            <h4>No grades assigned yet</h4>
+                            <p>Assign grades to enrolled students</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

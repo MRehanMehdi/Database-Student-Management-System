@@ -1,0 +1,53 @@
+@model IEnumerable<StudentManagementSystem.Models.Course>
+@{
+    ViewBag.Title = "Enroll in Course";
+    ViewBag.ActivePage = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Available Courses</div>
+        <div class="page-subtitle">// Select a course to enroll</div>
+    </div>
+    <a href="@Url.Action("MyCourses","Student")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> My Courses
+    </a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="course-grid">
+        @foreach (var c in Model)
+        {
+            <div class="course-card">
+                <div class="course-code">@c.CourseCode</div>
+                <div class="course-name">@c.CourseName</div>
+                <div class="course-desc">@(c.Description ?? "No description provided.")</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+                    <span class="badge-edu badge-teal"><i class="bi bi-clock me-1"></i>@c.CreditHours Credits</span>
+                    <span class="badge-edu badge-blue"><i class="bi bi-person me-1"></i>@c.Instructor</span>
+                    <span class="badge-edu badge-purple"><i class="bi bi-people me-1"></i>@(c.Enrollments != null ? c.Enrollments.Count : 0) enrolled</span>
+                </div>
+                @using (Html.BeginForm("RegisterCourse", "Student", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="courseId" value="@c.Id" />
+                    <button type="submit" class="btn-edu btn-edu-primary w-100" style="justify-content:center">
+                        <i class="bi bi-plus-circle-fill"></i> Enroll
+                    </button>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="edu-card">
+        <div class="empty-state">
+            <i class="bi bi-book"></i>
+            <h4>No courses available</h4>
+            <p>Check back later when courses are added</p>
+        </div>
+    </div>
+}

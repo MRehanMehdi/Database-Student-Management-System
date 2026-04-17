@@ -1,0 +1,56 @@
+@model StudentManagementSystem.Models.Announcement
+@{
+    ViewBag.Title = "New Announcement";
+    ViewBag.ActivePage = "Announcements";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">New Announcement</div>
+        <div class="page-subtitle">// Post a notice to all students</div>
+    </div>
+    <a href="@Url.Action("Announcements","Admin")" class="btn-edu btn-edu-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</div>
+
+<div style="max-width:640px">
+    @using (Html.BeginForm("CreateAnnouncement", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="edu-card mb-3">
+            <div class="edu-card-header">
+                <span class="edu-card-title"><i class="bi bi-megaphone me-2 text-teal"></i>Announcement Details</span>
+            </div>
+            <div class="edu-card-body">
+                <div style="display:flex;flex-direction:column;gap:18px">
+                    <div class="field-group">
+                        <label class="field-label">Title *</label>
+                        @Html.TextBoxFor(m => m.Title, new { @class = "edu-input", placeholder = "e.g. Exam Schedule Update" })
+                        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "field-error" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Category</label>
+                        @Html.TextBoxFor(m => m.Category, new { @class = "edu-input", placeholder = "e.g. Academic, Event, General" })
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Body *</label>
+                        @Html.TextAreaFor(m => m.Body, new { @class = "edu-textarea", placeholder = "Write your announcement here...", style = "min-height:120px" })
+                        @Html.ValidationMessageFor(m => m.Body, "", new { @class = "field-error" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+            <button type="submit" class="btn-edu btn-edu-primary">
+                <i class="bi bi-send-fill"></i> Post Announcement
+            </button>
+            <a href="@Url.Action("Announcements","Admin")" class="btn-edu btn-edu-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </div>
+    }
+</div>

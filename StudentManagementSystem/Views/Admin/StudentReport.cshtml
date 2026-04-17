@@ -1,0 +1,90 @@
+@model IEnumerable<StudentManagementSystem.Models.Student>
+@{
+    ViewBag.Title = "Student Report";
+    ViewBag.ActivePage = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">Student Report</div>
+        <div class="page-subtitle">// Generated: @DateTime.Now.ToString("MMMM dd, yyyy — hh:mm tt")</div>
+    </div>
+    <div style="display:flex;gap:8px">
+        <a href="@Url.Action("GenerateStudentReport","Admin")" class="btn-edu btn-edu-primary">
+            <i class="bi bi-file-earmark-arrow-down-fill"></i> Download CSV
+        </a>
+        <button onclick="window.print()" class="btn-edu btn-edu-secondary">
+            <i class="bi bi-printer-fill"></i> Print
+        </button>
+    </div>
+</div>
+
+<!-- Summary -->
+<div class="stat-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+    <div class="stat-card stat-teal">
+        <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+        <div class="stat-info">
+            <div class="stat-val">@Model.Count()</div>
+            <div class="stat-label">Total Students</div>
+        </div>
+    </div>
+    <div class="stat-card stat-blue">
+        <div class="stat-icon"><i class="bi bi-person-check-fill"></i></div>
+        <div class="stat-info">
+            <div class="stat-val">@Model.Count(s => s.Enrollments != null && s.Enrollments.Any())</div>
+            <div class="stat-label">Enrolled Students</div>
+        </div>
+    </div>
+    <div class="stat-card stat-orange">
+        <div class="stat-icon"><i class="bi bi-camera-fill"></i></div>
+        <div class="stat-info">
+            <div class="stat-val">@Model.Count(s => !string.IsNullOrEmpty(s.PhotoPath))</div>
+            <div class="stat-label">With Photo</div>
+        </div>
+    </div>
+</div>
+
+<div class="edu-table-wrap">
+    <table class="edu-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Courses</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td class="mono" style="font-size:0.72rem;color:var(--text-dim)">@i</td>
+                    <td>
+                        <div class="student-cell">
+                            <div class="student-avatar-placeholder">@s.FirstName.Substring(0,1).ToUpper()</div>
+                            <div>
+                                <div class="student-name">@s.FirstName @s.LastName</div>
+                                <div class="student-id">ID #@s.Id.ToString("D5")</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="font-size:0.8rem;color:var(--text-muted)">@s.Email</td>
+                    <td class="mono" style="font-size:0.8rem;color:var(--text-muted)">@s.PhoneNumber</td>
+                    <td class="mono" style="font-size:0.78rem;color:var(--text-muted)">@s.DateOfBirth.ToString("MMM dd, yyyy")</td>
+                    <td style="font-size:0.8rem;color:var(--text-muted);max-width:160px">@s.Address</td>
+                    <td>
+                        <span class="badge-edu badge-purple">
+                            @(s.Enrollments != null ? s.Enrollments.Count : 0) course(s)
+                        </span>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,65 @@
+@* Student/MyCourses.cshtml *@
+@model StudentManagementSystem.Models.Student
+@{
+    ViewBag.Title = "My Courses";
+    ViewBag.ActivePage = "MyCourses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-title">My Courses</div>
+        <div class="page-subtitle">// @(Model.Enrollments != null ? Model.Enrollments.Count : 0) enrolled course(s)</div>
+    </div>
+    <a href="@Url.Action("RegisterCourse","Student")" class="btn-edu btn-edu-primary">
+        <i class="bi bi-plus-circle-fill"></i> Enroll New Course
+    </a>
+</div>
+
+@if (Model.Enrollments != null && Model.Enrollments.Any())
+{
+    <div class="course-grid">
+        @foreach (var enr in Model.Enrollments)
+        {
+            <div class="course-card">
+                <div class="course-code">@(enr.Course != null ? enr.Course.CourseCode : "N/A")</div>
+                <div class="course-name">@(enr.Course != null ? enr.Course.CourseName : "Unknown")</div>
+                <div class="course-desc">@(enr.Course != null && enr.Course.Description != null ? enr.Course.Description : "No description.")</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    @if (enr.Course != null)
+                    {
+                        <span class="badge-edu badge-teal"><i class="bi bi-clock me-1"></i>@enr.Course.CreditHours cr</span>
+                        <span class="badge-edu badge-blue"><i class="bi bi-person me-1"></i>@enr.Course.Instructor</span>
+                    }
+                </div>
+                <div class="course-footer">
+                    @if (enr.Grade != null)
+                    {
+                        string gc = enr.Grade.LetterGrade == "A" ? "grade-A" : enr.Grade.LetterGrade == "B" ? "grade-B" : enr.Grade.LetterGrade == "C" ? "grade-C" : enr.Grade.LetterGrade == "D" ? "grade-D" : "grade-F";
+                        <span class="badge-edu @gc" style="font-size:0.8rem;padding:5px 12px">
+                            <i class="bi bi-award-fill me-1"></i>@enr.Grade.LetterGrade — @enr.Grade.Score%
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge-edu badge-orange">Grade: Pending</span>
+                    }
+                    <span class="mono" style="font-size:0.68rem;color:var(--text-dim)">@enr.EnrollmentDate.ToString("MMM dd, yyyy")</span>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="edu-card">
+        <div class="empty-state">
+            <i class="bi bi-book"></i>
+            <h4>No courses yet</h4>
+            <p>Enroll in a course to get started</p>
+            <a href="@Url.Action("RegisterCourse","Student")" class="btn-edu btn-edu-primary" style="margin-top:16px;display:inline-flex">
+                <i class="bi bi-plus-circle-fill"></i> Enroll Now
+            </a>
+        </div>
+    </div>
+}
